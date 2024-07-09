@@ -75,6 +75,7 @@ class Player(pygame.sprite.Sprite):
                 
             else:
                 self.direction.x = 0
+                absdf
                 
             #VERTICAL MOVEMENT
             if keys[pygame.K_UP]:
