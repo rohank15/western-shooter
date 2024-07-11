@@ -57,9 +57,8 @@ class Player(pygame.sprite.Sprite):
             if self.attacking:
                 self.attacking = False
             
-        self.image = currentAnimation[int(self.frameIndex)]
-            
-        
+        self.image = currentAnimation[int(self.frameIndex)]         
+       
     def input(self):
         keys = pygame.key.get_pressed()
 
