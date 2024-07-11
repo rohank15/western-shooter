@@ -39,12 +39,20 @@ class Game:
     def setup(self):
         tmxMap = load_pygame('data/map.tmx')
         
+        #FENCE
         for x,y,surf in tmxMap.get_layer_by_name('Fence').tiles():
-            sprite = Sprite((x * 64,y * 64),surf)
-            self.allSprites.add(sprite)
+            fence = Sprite((x * 64,y * 64),surf)
+            self.allSprites.add(fence)
+            
+        #OBJECTS
+        for obj in tmxMap.get_layer_by_name('Object'):
+            obj = Sprite((obj.x,obj.y),obj.image)
+            self.allSprites.add(obj)
         
-        self.player = Player((200,200),PATHS['player'],None)
-        self.allSprites.add(self.player)
+        for obj in tmxMap.get_layer_by_name('Entities'):
+            if obj.name == 'Player':
+                self.player = Player((obj.x,obj.y),PATHS['player'],None)
+                self.allSprites.add(self.player)
 
     def run(self):
         while True:
