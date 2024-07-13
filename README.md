@@ -3,9 +3,12 @@ A 2D top-down western shooter game is an action-packed adventure set in the rugg
 
 ## How to run the game
 
+### Prerequisites:
 ```bash
 pip install pygame-ce
-cd Downloads
-git clone https://github.com/rohank15/western-shooter.git
+```
+
+### Clone the repository and navigate into the directory using ```cd``` command and run the following command:
+```bash
 python3 main.py
 ```
