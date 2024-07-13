@@ -13,5 +13,5 @@ pip install pygame-ce
 python3 main.py
 ```
 
-### Game Preview
+### Game Preview:
   ![Screenshot_20240713_162816](https://github.com/user-attachments/assets/395f78db-270f-47ec-9db3-f11286c0829c)
