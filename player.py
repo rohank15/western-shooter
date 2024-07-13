@@ -2,7 +2,7 @@ import pygame
 from os import walk
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos,path,collisionSprite):
+    def __init__(self,pos,path,collisionSprite,createBullet):
         super().__init__()
         
         self.importAssets(path)
@@ -22,6 +22,11 @@ class Player(pygame.sprite.Sprite):
         self.collisionSprite = collisionSprite
         
         self.attacking = False
+        
+        self.createBullet = createBullet
+        
+        self.bulletShot = False
+        self.bulletDirection = pygame.math.Vector2()
         
     def importAssets(self,path):
         self.animations = {}
@@ -51,6 +56,11 @@ class Player(pygame.sprite.Sprite):
         currentAnimation = self.animations[self.status]
         
         self.frameIndex += 7 * dt
+        
+        if int(self.frameIndex) == 2 and self.attacking and not self.bulletShot:
+            bulletStartPos = self.rect.center + self.bulletDirection * 50
+            self.createBullet(bulletStartPos,self.bulletDirection )
+            self.bulletShot = True
             
         if self.frameIndex >= len(currentAnimation):
             self.frameIndex = 0
@@ -92,6 +102,13 @@ class Player(pygame.sprite.Sprite):
                 self.attacking = True
                 self.direction = pygame.math.Vector2(0,0)
                 self.frameIndex = 0
+                self.bulletShot = False
+                
+                match self.status.split('_')[0]:
+                    case 'left':    self.bulletDirection = pygame.math.Vector2(-1,0)
+                    case 'right':    self.bulletDirection = pygame.math.Vector2(1,0)
+                    case 'up':    self.bulletDirection = pygame.math.Vector2(0,-1)
+                    case 'down':    self.bulletDirection = pygame.math.Vector2(0,1)
 
     def movement(self,dt):
         if self.direction.magnitude() != 0:
@@ -137,4 +154,3 @@ class Player(pygame.sprite.Sprite):
         self.animate(dt)
         self.input()
         self.movement(dt)
-        

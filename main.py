@@ -3,7 +3,7 @@ import sys
 from settings import *  
 from player import Player
 from pytmx.util_pygame import load_pygame
-from sprite import Sprite
+from sprite import Sprite, Bullet
 
 pygame.init()
 
@@ -31,11 +31,20 @@ class Game:
         self.displaceSurface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
         pygame.display.set_caption('Western Shooter')
         self.clock = pygame.time.Clock()
+        
+        self.bulletSurf = pygame.image.load('graphics/other/particle.png').convert_alpha()
 
         #GROUP
         self.allSprites = AllSprites()
         self.obstacles = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group()
+        
         self.setup()
+
+    def createBullets(self,pos,direction):
+        bullet = Bullet(pos,self.bulletSurf,direction)
+        self.allSprites.add(bullet)
+        self.bullets.add(bullet)
 
     def setup(self):
         tmxMap = load_pygame('data/map.tmx')
@@ -54,7 +63,7 @@ class Game:
         
         for obj in tmxMap.get_layer_by_name('Entities'):
             if obj.name == 'Player':
-                self.player = Player((obj.x,obj.y),PATHS['player'],self.obstacles)
+                self.player = Player((obj.x,obj.y),PATHS['player'],self.obstacles,self.createBullets)
                 self.allSprites.add(self.player)
 
     def run(self):
